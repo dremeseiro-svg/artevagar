@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Deriva Personal | Daniel Remeseiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-master: #0a0a0a;
+            --bg-canvas: #ffffff;
+            --text-main: #111111;
+            --text-light: #555555;
+            --serif: 'Cormorant Garamond', serif;
+            --sans: 'Montserrat', sans-serif;
+        }
+
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact; }
+
+        body {
+            font-family: var(--serif);
+            background-color: var(--bg-master);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* --- ESTILOS WEB --- */
+        header {
+            height: 65vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('image 10b.jpg') center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        h1 { font-size: clamp(3rem, 8vw, 5rem); margin: 0; font-style: italic; font-weight: 600; letter-spacing: -1px; }
+        .author-header { font-family: var(--sans); font-size: 0.8rem; letter-spacing: 8px; text-transform: uppercase; font-weight: 600; margin-top: 1.5rem; }
+
+        .wrapper { background-color: var(--bg-canvas); max-width: 1100px; margin: 0 auto; padding: 6rem 4rem; }
+
+        .curatorial-page { margin-bottom: 4rem; padding-bottom: 4rem; border-bottom: 1px solid #f0f0f0; }
+        .curatorial-page h2 { font-size: 3rem; font-style: italic; margin-bottom: 2.5rem; font-weight: 600; color: #000; }
+        .curatorial-text { font-size: 1.35rem; text-align: justify; color: #1a1a1a; max-width: 850px; font-weight: 400; }
+
+        /* Indicación WEB: más pequeña y tenue */
+        .instruccion-deriva {
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999; /* Color tenue */
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 3rem;
+            display: block;
+            width: 100%;
+        }
+
+        .diptico-item { width: 100%; border-bottom: 1px solid #eee; padding-bottom: 6rem; margin-top: 4rem; }
+        .diptico-meta { 
+            display: flex; justify-content: space-between; font-family: var(--sans); 
+            font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 600;
+            color: #000; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 3rem;
+        }
+
+        .pieza-contenido { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .bloque-fase { position: relative; }
+        .bloque-fase img { width: 100%; filter: grayscale(100%); transition: filter 0.6s ease; cursor: crosshair; margin-bottom: 20px; border: 1px solid #ddd; }
+
+        .bloque-fase::after {
+            content: 'VER COLOR';
+            position: absolute; top: 15px; right: 15px;
+            font-family: var(--sans); font-size: 0.6rem; font-weight: 600; letter-spacing: 1px;
+            color: #fff; background: rgba(0,0,0,0.6); padding: 6px 12px;
+            pointer-events: none; opacity: 0.9; z-index: 10;
+        }
+
+        .bloque-fase:hover img { filter: grayscale(0%); }
+        .bloque-fase:hover::after { opacity: 0; }
+
+        .info-fase h4 { font-size: 1.8rem; margin: 0 0 12px 0; font-style: italic; font-weight: 600; }
+        .info-fase p { font-size: 1.05rem; color: #333; font-weight: 400; line-height: 1.5; }
+
+        .pdf-container { text-align: center; padding: 6rem 0; background: var(--bg-canvas); }
+        .btn-pdf { background: #000; color: #fff; border: none; padding: 20px 60px; cursor: pointer; font-family: var(--sans); text-transform: uppercase; letter-spacing: 4px; font-size: 0.8rem; font-weight: 600; }
+
+        /* Estilo footer para WEB */
+        .footer-book { background: #0a0a0a; color: #ffffff; text-align: center; padding: 6rem 2rem; font-family: var(--sans); font-size: 0.8rem; letter-spacing: 3px; line-height: 2.5; }
+
+        /* --- AJUSTES ESPECÍFICOS PDF --- */
+        @media print {
+            @page { size: A4 portrait; margin: 1.5cm 2cm; }
+            html, body { background: #fff !important; color: #000 !important; }
+            header, .pdf-container, .instruccion-deriva, .bloque-fase::after { display: none !important; }
+            .wrapper { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .curatorial-page { height: 95vh; display: flex; flex-direction: column; justify-content: center; page-break-after: always; border: none !important; }
+            .diptico-item { height: 95vh; display: flex; flex-direction: column; justify-content: center; page-break-after: always; border: none !important; margin: 0 !important; }
+            .diptico-item:last-child { page-break-after: avoid !important; }
+
+            /* Contraportada limpia para que los enlaces funcionen */
+            .footer-book { 
+                height: 95vh; 
+                display: block !important; /* Cambiado de flex a block para evitar conflictos de enlaces en PDF */
+                background: #fff !important; 
+                color: #000 !important; 
+                page-break-before: always;
+                padding-top: 30vh !important;
+                border-top: 1px solid #eee;
+            }
+            .footer-book a { 
+                color: #000 !important; 
+                text-decoration: underline !important; 
+                display: inline-block;
+                margin: 10px 0;
+            }
+
+            .pieza-contenido { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 40px !important; }
+            .bloque-fase img { filter: none !important; max-height: 380px; object-fit: contain; border: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Manual de Deriva Personal</h1>
+    <div class="author-header">Daniel Remeseiro</div>
+</header>
+
+<div class="wrapper">
+    <section class="curatorial-page">
+        <h2>La Estética del Caos Controlado</h2>
+        <div class="curatorial-text">
+            
+			<p>Este <strong>Manual de Deriva Personal</strong> surge como una respuesta a la rigidez de los procesos predecibles. En la obra de <strong>Daniel Remeseiro</strong>, el error no es un fallo, sino un catalizador de <strong>Antifragilidad</strong>: la capacidad de mejorar a través del desorden.</p>
+            <p>Con la experimentación con planchas de gelatina, cada pieza documenta una colisión entre la intención del artista y la voluntad del azar. Aplicando la <strong>Vía Negativa</strong>, el autor no añade belleza, sino que elimina el ruido superfluo para dejar emerger la <strong>Señal</strong> verdadera.</p>
+            <p>Este catálogo es un registro de <strong>Cisnes Negros Positivos</strong>: hallazgos visuales improbables que transforman el accidente en un nuevo lenguaje fundacional.</p>
+			
+			 <p>La práctica artística se despliega como un laboratorio de resistencia contra lo predecible. En su serie <em>Dípticos Fundacionales</em>, el artista no busca la imagen, sino que permite que esta ocurra.</p>
+            <p>El eje central es la <strong>Antifragilidad</strong>. La obra se fortalece con el error. Utilizando la plancha de gelatina como un ecosistema vivo, el artista provoca un estado de <strong>Ruido Fértil</strong>.</p>
+            <p>A la izquierda, el <strong>Caos</strong>: el rastro del "trasteo". A la derecha, el <strong>Orden Emergente</strong>: mediante la <strong>Vía Negativa</strong>, el artista rescata la <strong>Señal</strong>.</p>
+			
+			
+			
+        </div>
+    </section>
+
+    <span class="instruccion-deriva">Interactúa con las imágenes para rescatar el rastro de color</span>
+
+    <div class="gallery-grid">
+        <script>
+            const obras = [
+                { id: "01", titulo: "Génesis de la Deriva", caosTit: "Ruido Fértil", caosDesc: "Desorden primario; el sustrato donde la imperfección actúa como motor creativo.", ordTit: "Señal Encontrada", ordDesc: "La esencia estética rescatada del caos mediante el recorte y la selección." },
+                { id: "02", titulo: "Dualidad Orgánica", caosTit: "Incertidumbre", caosDesc: "Acción mecánica deliberada para romper la predictibilidad del soporte.", ordTit: "Supervivencia", ordDesc: "Cualidad del fragmento que demuestra ser antifrágil y permanece en la obra." },
+                { id: "03", titulo: "La Máscara de la Mancha", caosTit: "Vía Negativa", caosDesc: "Fase de descarte donde se suprime lo accesorio para revelar el rastro.", ordTit: "Captura", ordDesc: "Identificación de un acierto visual imprevisto que fija la nueva dirección." },
+                { id: "04", titulo: "El Caminante", caosTit: "Incertidumbre Táctica", caosDesc: "Provocación del desorden utilizando la volatilidad de los pigmentos.", ordTit: "Resistencia", ordDesc: "La imagen consolidada que resiste al descarte y se convierte en señal fuerte." },
+                { id: "05", titulo: "El Abrazo Antifrágil", caosTit: "Saturación", caosDesc: "Reiteración del proceso buscando el punto de ruptura del sistema visual.", ordTit: "Estructura Emergente", ordDesc: "Composición que gana valor estético gracias a las perturbaciones externas." },
+                { id: "06", titulo: "Cisnes Negros Positivos", caosTit: "Azar Puro", caosDesc: "Morfologías imposibles de replicar mediante el diseño o la planificación.", ordTit: "Cisne Negro", ordDesc: "Hallazgo improbable que redefine por completo la lógica de la serie." },
+                { id: "07", titulo: "Estética de la Omisión", caosTit: "Saturación Crítica", caosDesc: "Estado de carga visual máxima que obliga a una intervención drástica.", ordTit: "Vía Negativa II", ordDesc: "Eliminar el exceso para que la obra respire y la señal sea legible." },
+                { id: "08", titulo: "Estructuras Silenciosas", caosTit: "Desecho Gráfico", caosDesc: "Materiales residuales que aportan autenticidad y texturas no forzadas.", ordTit: "Orden Emergente", ordDesc: "Organización visual que se manifiesta de forma espontánea sin control previo." },
+                { id: "09", titulo: "Opcionalidad de Color", caosTit: "Volatilidad", caosDesc: "Interacción de capas donde el error genera nuevas profundidades cromáticas.", ordTit: "Señal Capturada", ordDesc: "El momento de congelación donde la forma se rescata definitivamente del olvido." },
+                { id: "10", titulo: "Complejidad Máxima", caosTit: "Densidad de Deriva", caosDesc: "Acumulación de procesos que desafían la armonía convencional.", ordTit: "Equilibrio Final", ordDesc: "Convivencia perfecta entre el soporte rígido y la mancha volátil." }
+            ];
+            
+            obras.forEach((obra) => {
+                document.write(`
+                    <article class="diptico-item">
+                        <div class="diptico-meta">
+                            <span>Pieza ${obra.id}</span>
+                            <span>${obra.titulo}</span>
+                        </div>
+                        <div class="pieza-contenido">
+                            <div class="bloque-fase">
+                                <img src="image ${parseInt(obra.id)}a.jpg" alt="Caos">
+                                <div class="info-fase">
+                                    <h4>${obra.caosTit}</h4>
+                                    <p>${obra.caosDesc}</p>
+                                </div>
+                            </div>
+                            <div class="bloque-fase">
+                                <img src="image ${parseInt(obra.id)}b.jpg" alt="Orden">
+                                <div class="info-fase">
+                                    <h4>${obra.ordTit}</h4>
+                                    <p>${obra.ordDesc}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                `);
+            });
+        </script>
+    </div>
+
+    <div class="pdf-container">
+        <button class="btn-pdf" onclick="window.print()">Descargar Book PDF</button>
+    </div>
+</div>
+
+<footer class="footer-book">
+    <div style="margin-bottom: 2rem;">
+        <strong>DANIEL REMESEIRO</strong><br>
+        PROCESOS ANTIFRÁGILES / 2026
+    </div>
+    <div style="margin-bottom: 2rem;">
+        <a href="mailto:dremeseiro@gmail.com">dremeseiro@gmail.com</a><br>
+        <a href="https://wa.me/34654391870" target="_blank">WhatsApp</a>
+    </div>
+</footer>
+
+</body>
+</html>
